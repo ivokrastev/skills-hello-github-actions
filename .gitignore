@@ -36,3 +36,7 @@
 ehthumbs.db
 Thumbs.db
 /.vs
+/ConsoleApp/obj
+/TestProject/obj
+/ConsoleApp/bin
+/TestProject/bin
