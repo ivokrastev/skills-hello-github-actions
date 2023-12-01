@@ -11,22 +11,30 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+        source-url: https://nuget.pkg.github.com/ivokrastev/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         
     - name: Restore dependencies
       run: dotnet restore
       
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build -c Release
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
+    - name: Generate a NuGet package
+      run: dotnet pack --no-build -c Release -o .
+
+    - name: Push to GitHub package registry
+      run: dotnet nuget push *.nupkg
