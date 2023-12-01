@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+        packages: write
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -40,3 +42,4 @@ jobs:
       
     - name: Push to GitHub package registry
       run: dotnet nuget push ConsoleApp.1.0.0.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }}
+      
